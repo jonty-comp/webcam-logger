@@ -6,6 +6,7 @@ use threads::shared;
 use LWP::Simple;
 use XML::Simple;
 use Data::Dumper;
+use File::Copy;
 
 my $log = '/mnt/webcam-log';
 my @cameras;
@@ -35,12 +36,22 @@ sub capture_thread {
 	}
 }
 
+sub log_thread {
+	while(1) {
+		sleep($_->{log_every});
+		my $logfile = "$log/$_[0]->{id}/".time().".jpg";
+		my $currentfile = "$log/current/$_[0]->{id}.jpg";
+		copy($currentfile, $logfile) or warn "[WARN] Could not copy $currentfile to $logfile: $!\n";
+	}
+}
+
 sub main {
 	foreach (@cameras) {
 		threads->create(\&capture_thread,$_);
+		threads->create(\&log_thread,$_);
 	}
 	foreach $thr (threads->list) { 
-        # Don't join the main thread or ourselves 
+
         if ($thr->tid && !threads::equal($thr, threads->self)) { 
             $thr->join; 
         } 
