@@ -13,7 +13,7 @@
 		<name>Studio 1 Guest</name>
 		<method>http</method>
 		<url>http://cam-studio1-guest/image.jpg</url>
-		<capture_every>2</capture_every>
+		<capture_every>1</capture_every>
 		<log_every>4</log_every>
 	</camera>
 </cameras>
