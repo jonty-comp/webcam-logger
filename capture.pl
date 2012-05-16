@@ -27,10 +27,10 @@ sub capture_thread {
 
 		my $result = getstore($_[0]->{url}, $tmp->filename);
 		if($result != 200) {
-			print "Error fetching $_[0]->{url}: $result\n";
+			warn "[WARN] Error fetching $_[0]->{url}: $result\n";
 		} else {
 			rename $tmp->filename, $file;
-			print "Fetched $_[0]->{url} to $file\n";
+			#print "Fetched $_[0]->{url} to $file\n";
 		}
 		sleep($_->{capture_every});
 	}
@@ -59,12 +59,12 @@ sub main {
 }
 
 sub init {
-	if(!-d "$log/current") { mkdir("$log/current") or die "Could not make current image store $log/current: $!\n";	}
-	if(!-d "$log/tmp") { mkdir("$log/tmp") or die "Could not make temporary image store $log/tmp: $!\n"; }
+	if(!-d "$log/current") { mkdir("$log/current") or die "[FATAL] Could not make current image store $log/current: $!\n";	}
+	if(!-d "$log/tmp") { mkdir("$log/tmp") or die "[FATAL] Could not make temporary image store $log/tmp: $!\n"; }
 	foreach (@cameras) {
 		$dir = "$log/$_->{id}";
 		if(!-d $dir) {
-			mkdir($dir) or die "Could not make folder $dir: $!\n";
+			mkdir($dir) or die "[FATAL] Could not make folder $dir: $!\n";
 		}
 	}
 }
