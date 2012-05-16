@@ -28,11 +28,15 @@ sub capture_thread {
 		my $result = getstore($_[0]->{url}, $tmp->filename);
 		if($result != 200) {
 			warn "[WARN] Error fetching $_[0]->{url}: $result\n";
+			$sleep = $sleep * 2;
+			print "[INFO] Sleeping for $sleep seconds before trying again\n";
 		} else {
+			chmod 0755, $tmp->filename;
 			rename $tmp->filename, $file;
 			#print "Fetched $_[0]->{url} to $file\n";
+			$sleep = $_->{capture_every};
 		}
-		sleep($_->{capture_every});
+		sleep($sleep);
 	}
 }
 

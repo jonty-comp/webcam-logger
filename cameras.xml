@@ -5,7 +5,7 @@
 		<name>Studio 1 DJ</name> <!-- The formatted name of the camera -->
 		<method>http</method> <!-- The method for accessing the camera (only http atm) -->
 	        <url>http://cam-studio1-dj/image.jpg</url> <!-- The URL of the camera to capture -->
-        	<capture_every>2</capture_every> <!-- Capture every n seconds -->
+        	<capture_every>1</capture_every> <!-- Capture every n seconds -->
 	        <log_every>10</log_every> <!-- Log every n seconds, could produce duplicate images as it just copies the captured image at that time -->
 	</camera>
 	<camera>
@@ -21,7 +21,7 @@
                 <name>Studio 2 DJ</name>
                 <method>http</method>
                 <url>http://cam-studio2-dj/image.jpg</url>
-                <capture_every>2</capture_every>
+                <capture_every>1</capture_every>
                 <log_every>10</log_every>
         </camera>
         <camera>
@@ -37,7 +37,7 @@
                 <name>RaW Office Area</name>
                 <method>http</method>
                 <url>http://cam-edit-raw/image.jpg</url>
-                <capture_every>5</capture_every>
+                <capture_every>1</capture_every>
                 <log_every>10</log_every>
         </camera>
         <camera>
@@ -45,7 +45,7 @@
                 <name>WTV Office Area</name>
                 <method>http</method>
                 <url>http://cam-edit-wtv/image.jpg</url>
-                <capture_every>5</capture_every>
+                <capture_every>1</capture_every>
                 <log_every>10</log_every>
         </camera>
         <camera>
