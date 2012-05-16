@@ -1,0 +1,19 @@
+<?xml version='1.0'?>
+<cameras>
+        <camera>
+		<id>st1-dj</id> <!-- A short ID to use for internal purposes -->
+		<name>Studio 1 DJ</name> <!-- The formatted name of the camera -->
+		<method>http</method> <!-- The method for accessing the camera (only http atm) -->
+	        <url>http://cam-studio1-dj/image.jpg</url> <!-- The URL of the camera to capture -->
+        	<capture_every>2</capture_every> <!-- Capture every n seconds -->
+	        <log_every>4</log_every> <!-- Log every n seconds, must be a multiple of capture_every -->
+	</camera>
+	<camera>
+		<id>st1-guest</id>
+		<name>Studio 1 Guest</name>
+		<method>http</method>
+		<url>http://cam-studio1-guest/image.jpg</url>
+		<capture_every>2</capture_every>
+		<log_every>4</log_every>
+	</camera>
+</cameras>
