@@ -7,8 +7,10 @@ use LWP::Simple;
 use XML::Simple;
 use Data::Dumper;
 use File::Copy;
+use File::Path;
+use Image::Magick;
 
-my $log = '/mnt/webcam-log';
+my $log = "/mnt/webcam-log";
 my @cameras;
 
 sub read_xml {
@@ -43,9 +45,25 @@ sub capture_thread {
 sub log_thread {
 	while(1) {
 		sleep($_->{log_every});
-		my $logfile = "$log/$_[0]->{id}/".time().".jpg";
+		($sec,$min,$hour,$mday,$mon,$year,$wday,$yday,$isdst) = localtime(time);
+		$year += 1900; $mon += 1;
+		my $logpath = "$log/log/$_[0]->{id}/$year-".sprintf("%02d", $mon)."-".sprintf("%02d",$mday)."/";
+		if(!-d $logpath) { mkpath($logpath) or warn "[ERROR] Could not create log directory $logpath: $!\n"; }
+		my $logfile = "$logpath".time().".jpg";
 		my $currentfile = "$log/current/$_[0]->{id}.jpg";
-		copy($currentfile, $logfile) or warn "[WARN] Could not copy $currentfile to $logfile: $!\n";
+
+		$image = Image::Magick->new;
+		$x = $image->Read($currentfile);
+		warn "$x" if "$x";
+
+		$x = $image->AdaptiveResize(width=>640, height=>480);
+		warn "$x" if "$x";
+
+		$x = $image->Write($logfile);
+		warn "$x" if "$x";
+
+		print "[INFO] Written $currentfile to $logfile\n";
+		#copy($currentfile, $logfile) or warn "[WARN] Could not copy $currentfile to $logfile: $!\n";
 	}
 }
 
@@ -63,14 +81,9 @@ sub main {
 }
 
 sub init {
-	if(!-d "$log/current") { mkdir("$log/current") or die "[FATAL] Could not make current image store $log/current: $!\n";	}
-	if(!-d "$log/tmp") { mkdir("$log/tmp") or die "[FATAL] Could not make temporary image store $log/tmp: $!\n"; }
-	foreach (@cameras) {
-		$dir = "$log/$_->{id}";
-		if(!-d $dir) {
-			mkdir($dir) or die "[FATAL] Could not make folder $dir: $!\n";
-		}
-	}
+	if(!-d "$log/current") { mkpath("$log/current") or die "[FATAL] Could not make current image store $log/current: $!\n";	}
+	if(!-d "$log/tmp") { mkpath("$log/tmp") or die "[FATAL] Could not make temporary image store $log/tmp: $!\n"; }
+	if(!-d "$log/log") { mkpath("$log/log") or die "[FATAL] Could not make logging store $log/log: $!\n"; }
 }
 
 read_xml;
