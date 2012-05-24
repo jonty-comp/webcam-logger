@@ -47,11 +47,14 @@ sub log_thread {
 		my $logfile = "$logpath".time().".jpg";
 		my $currentfile = "$log/current/$_[0]->{id}.jpg";
 
-		$image = Image::Magick->new;
+		my $image = Image::Magick->new;
 		$x = $image->Read($currentfile);
 		warn "$x" if "$x";
 
-		$x = $image->AdaptiveResize(width=>640, height=>480);
+		my($width, $height) = $image->Get('width', 'height');
+		my $aspect = $width/$height;
+
+		$x = $image->AdaptiveResize(width=>640, height=>(640*$aspect));
 		warn "$x" if "$x";
 
 		$x = $image->Write($logfile);
