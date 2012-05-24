@@ -1,12 +1,8 @@
 #!/usr/bin/perl
 
-use warnings;
 use threads;
-use threads::shared;
 use LWP::Simple;
 use XML::Simple;
-use Data::Dumper;
-use File::Copy;
 use File::Path;
 use Image::Magick;
 
