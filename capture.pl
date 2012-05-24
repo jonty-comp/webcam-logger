@@ -19,7 +19,6 @@ sub read_xml {
 	@cameras = @{$data->{camera}};
 }
 
-#LOG: "$log/$_[0]->{id}/".time().".jpg"
 sub capture_thread {
 	while(1) {
 		my $file = "$log/current/$_[0]->{id}.jpg";
@@ -63,7 +62,6 @@ sub log_thread {
 		warn "$x" if "$x";
 
 		print "[INFO] Written $currentfile to $logfile\n";
-		#copy($currentfile, $logfile) or warn "[WARN] Could not copy $currentfile to $logfile: $!\n";
 	}
 }
 
