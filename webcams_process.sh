@@ -1,7 +1,7 @@
 #!/bin/bash
 logdir="/mnt/webcams/"
 
-datestr=$(/bin/date -d yesterday +%Y-%m-%d)
+datestr=$(/bin/date -d yesterday +%Y/%m/%d)
 #datestr="2012-05-29"
 
 for D in $logdir*/
