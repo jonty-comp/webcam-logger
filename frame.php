@@ -5,21 +5,21 @@ function time_to_seconds ($str) { // $hour must be a string type: "HH:mm:ss"
     return (int) $parse['hours'] * 3600 + (int) $parse['mins'] * 60 + (int) $parse['secs'];
 }
 
-$logpath = "/mnt/webcam-log/log/";
+$logpath = "/mnt/webcams/";
 
 $camera = $_REQUEST["camera"];
-$date = $_REQUEST["date"];
+$date = str_replace("-","/",$_REQUEST["date"]);
 $time = $_REQUEST["time"];
 
 header("Content-type: image/jpeg");
 
-if($date == date("Y-m-d")) {
+if($date == date("Y/m/d")) {
 	$imagefile = strtotime($date." ".$time);
 	$fullpath = $logpath.$camera."/".$date."/".$imagefile.".jpg";
 	while(!$image) {
 		$imagefile -= 1;
 		$fullpath = $logpath.$camera."/".$date."/".$imagefile.".jpg";
-		$image = imagecreatefromjpeg($fullpath);
+		$image = @imagecreatefromjpeg($fullpath);
 	}
 } else {
 	$video = new ffmpeg_movie($logpath.$camera."/".$date."/log.avi");
