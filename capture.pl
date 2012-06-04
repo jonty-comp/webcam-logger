@@ -42,7 +42,7 @@ sub log_thread {
 		sleep($_->{log_every});
 		($sec,$min,$hour,$mday,$mon,$year,$wday,$yday,$isdst) = localtime(time);
 		$year += 1900; $mon += 1;
-		my $logpath = "$log/log/$_[0]->{id}/$year-".sprintf("%02d", $mon)."-".sprintf("%02d",$mday)."/";
+		my $logpath = "$log/log/$_[0]->{id}/$year/".sprintf("%02d", $mon)."/".sprintf("%02d",$mday)."/";
 		if(!-d $logpath) { mkpath($logpath) or warn "[ERROR] Could not create log directory $logpath: $!\n"; }
 		my $logfile = "$logpath".time().".jpg";
 		my $currentfile = "$log/current/$_[0]->{id}.jpg";
@@ -52,7 +52,7 @@ sub log_thread {
 		warn "$x" if "$x";
 
 		my($width, $height) = $image->Get('width', 'height');
-		my $aspect = $width/$height;
+		my $aspect = $height/$width;
 
 		$x = $image->AdaptiveResize(width=>640, height=>(640*$aspect));
 		warn "$x" if "$x";
@@ -60,7 +60,7 @@ sub log_thread {
 		$x = $image->Write($logfile);
 		warn "$x" if "$x";
 
-		print "[INFO] Written $currentfile to $logfile\n";
+		#print "[INFO] Written $currentfile to $logfile\n";
 	}
 }
 
