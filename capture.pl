@@ -4,22 +4,25 @@ use threads;
 use LWP::Simple;
 use XML::Simple;
 use File::Path;
+use File::Temp;
 use Image::Magick;
 
-my $log = "/mnt/webcam-log";
+my $log = "/mnt/data/webcams";
+my $current = "/var/www/webcams/";
+my $config = "/etc/webcams.xml";
 my @cameras;
 
 sub read_xml {
 	$xml = new XML::Simple (KeyAttr=>[]);
-	$data = $xml->XMLin("cameras.xml");
+	$data = $xml->XMLin($config);
 	@cameras = @{$data->{camera}};
 }
 
 sub capture_thread {
 	while(1) {
-		my $file = "$log/current/$_[0]->{id}.jpg";
+		my $file = "$current/$_[0]->{id}.jpg";
 		my $tmp = File::Temp->new( TEMPLATE => "$_[0]->{id}XXXX",
-					   DIR => "$log/tmp/",
+					   DIR => "$current/tmp/",
 					   SUFFIX => ".jpg");
 
 		my $result = getstore($_[0]->{url}, $tmp->filename);
@@ -42,10 +45,10 @@ sub log_thread {
 		sleep($_->{log_every});
 		($sec,$min,$hour,$mday,$mon,$year,$wday,$yday,$isdst) = localtime(time);
 		$year += 1900; $mon += 1;
-		my $logpath = "$log/log/$_[0]->{id}/$year/".sprintf("%02d", $mon)."/".sprintf("%02d",$mday)."/";
+		my $logpath = "$log/$_[0]->{id}/$year/".sprintf("%02d", $mon)."/".sprintf("%02d",$mday)."/";
 		if(!-d $logpath) { mkpath($logpath) or warn "[ERROR] Could not create log directory $logpath: $!\n"; }
 		my $logfile = "$logpath".time().".jpg";
-		my $currentfile = "$log/current/$_[0]->{id}.jpg";
+		my $currentfile = "$current/$_[0]->{id}.jpg";
 
 		my $image = Image::Magick->new;
 		$x = $image->Read($currentfile);
@@ -78,9 +81,9 @@ sub main {
 }
 
 sub init {
-	if(!-d "$log/current") { mkpath("$log/current") or die "[FATAL] Could not make current image store $log/current: $!\n";	}
-	if(!-d "$log/tmp") { mkpath("$log/tmp") or die "[FATAL] Could not make temporary image store $log/tmp: $!\n"; }
-	if(!-d "$log/log") { mkpath("$log/log") or die "[FATAL] Could not make logging store $log/log: $!\n"; }
+	if(!-d "$current") { mkpath("$current") or die "[FATAL] Could not create/access current image store $current: $!\n";	}
+	if(!-d "$current/tmp") { mkpath("$current/tmp") or die "[FATAL] Could not create/access temporary image store $current/tmp: $!\n"; }
+	if(!-d "$log") { mkpath("$log") or die "[FATAL] Could not create/access logging store $log: $!\n"; }
 }
 
 read_xml;
