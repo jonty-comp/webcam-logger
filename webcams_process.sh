@@ -1,20 +1,35 @@
 #!/bin/bash
-logdir="/mnt/webcams/"
+logdir="/mnt/data/webcams/"
 
-datestr=$(/bin/date -d yesterday +%Y/%m/%d)
+#datestr=$(/bin/date -d yesterday +%Y/%m/%d)
 #datestr="2012-05-29"
 
-for D in $logdir*/
+#Camera
+for A in $logdir*/
 do
-	vidstr=$(echo "${D}" | sed 's#/*$##')/$datestr/log.avi
-	/usr/bin/mencoder "mf://${D}$datestr/*.jpg" -mf fps=25 -o $vidstr -ovc lavc -lavcopts vcodec=msmpeg4v2:vbitrate=800;
-	if [ -e $vidstr ]
-	then
-		rm ${D}$datestr/*.jpg;
-		echo Remove images;
-	else
-		echo Error: Video $vidstr could not be verified.;
-	fi
+	#Year
+	for B in ${A}*/
+	do
+		#Month
+		for C in ${B}*/
+		do
+			#Day
+			for D in ${C}*/
+			do
+				if find ${D}*.jpg -maxdepth 0 2>/dev/null | read
+				then
+					vidstr=$(echo "${D}" | sed 's#/*$##')/log.avi
+					echo $vidstr
+					/usr/bin/mencoder "mf://${D}*.jpg" -mf fps=25 -o $vidstr -ovc lavc -lavcopts vcodec=mpeg4:vbitrate=700; 2>&1 > /dev/null
+					if [ -e $vidstr ]
+					then
+						rm ${D}$datestr/*.jpg;
+						#echo Remove images;
+					else
+						echo Error: Video $vidstr could not be verified.;
+					fi
+				fi
+			done
+		done
+	done
 done
-
-
