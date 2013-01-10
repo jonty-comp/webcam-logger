@@ -3,72 +3,77 @@
         <camera>
 		<id>st1-dj</id> <!-- A short ID to use for internal purposes -->
 		<name>Studio 1 DJ</name> <!-- The formatted name of the camera -->
-		<method>http</method> <!-- The method for accessing the camera (only http atm) -->
-	        <url>http://cam-studio1-dj/image.jpg</url> <!-- The URL of the camera to capture -->
+	        <url>http://192.168.1.71/image.jpg</url> <!-- The URL of the camera to capture -->
         	<capture_every>1</capture_every> <!-- Capture every n seconds -->
 	        <log_every>10</log_every> <!-- Log every n seconds, could produce duplicate images as it just copies the captured image at that time -->
 	</camera>
 	<camera>
 		<id>st1-guest</id>
 		<name>Studio 1 Guest</name>
-		<method>http</method>
-		<url>http://cam-studio1-guest/image.jpg</url>
-		<capture_every>2</capture_every>
+		<url>http://192.168.1.72/image.jpg</url>
+		<capture_every>1</capture_every>
 		<log_every>10</log_every>
 	</camera>
         <camera>
+                <id>st1-desk</id>
+                <name>Studio 1 Desk</name>
+                <url>http://sta2/studio1-desk.jpeg</url>
+                <capture_every>1</capture_every>
+                <log_every>10</log_every>
+        </camera>
+        <camera>
                 <id>st2-dj</id>
                 <name>Studio 2 DJ</name>
-                <method>http</method>
-                <url>http://cam-studio2-dj/image.jpg</url>
+                <url>http://192.168.1.74/image.jpg</url>
                 <capture_every>1</capture_every>
                 <log_every>10</log_every>
         </camera>
         <camera>
                 <id>st2-guest</id>
                 <name>Studio 2 Guest</name>
-                <method>http</method>
-                <url>http://cam-studio2-guest/image.jpg</url>
-                <capture_every>2</capture_every>
+                <url>http://192.168.1.75/image.jpg</url>
+                <capture_every>1</capture_every>
+                <log_every>10</log_every>
+        </camera>
+        <camera>
+                <id>st2-desk</id>
+                <name>Studio 2 Desk</name>
+                <url>http://sta2/studio2-desk.jpeg</url>
+                <capture_every>1</capture_every>
                 <log_every>10</log_every>
         </camera>
         <camera>
                 <id>office-raw</id>
                 <name>RaW Office Area</name>
-                <method>http</method>
-                <url>http://cam-edit-raw/image.jpg</url>
+                <url>http://192.168.1.77/image.jpg</url>
                 <capture_every>1</capture_every>
                 <log_every>10</log_every>
         </camera>
         <camera>
                 <id>office-wtv</id>
                 <name>WTV Office Area</name>
-                <method>http</method>
-                <url>http://cam-edit-wtv/image.jpg</url>
+                <url>http://192.168.1.78/image.jpg</url>
                 <capture_every>1</capture_every>
                 <log_every>10</log_every>
         </camera>
         <camera>
                 <id>office-storage</id>
                 <name>Office Storage Area</name>
-                <method>http</method>
-                <url>http://cam-storage/image.jpg</url>
-                <capture_every>10</capture_every>
+                <url>http://192.168.1.80/image.jpg</url>
+                <capture_every>5</capture_every>
                 <log_every>10</log_every>
         </camera>
         <camera>
                 <id>foyer</id>
                 <name>Foyer</name>
-                <method>http</method>
-                <url>http://cam-foyer/image.jpg</url>
-                <capture_every>10</capture_every>
+                <url>http://192.168.1.82/image.jpg</url>
+                <capture_every>5</capture_every>
                 <log_every>10</log_every>
         </camera>
         <camera>
                 <id>cta</id>
                 <name>Central Technical Area</name>
-                <method>http</method>
-                <url>http://cam-cta/image.jpg</url>
+                <url>http://192.168.1.81/image.jpg</url>
                 <capture_every>5</capture_every>
                 <log_every>10</log_every>
         </camera>
