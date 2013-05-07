@@ -11,6 +11,7 @@ my $log = "/mnt/data/webcams";
 my $current = "/var/www/webcams/";
 my $config = "/etc/webcams.xml";
 my @cameras;
+my $maxsleep = 300;
 
 sub read_xml {
 	$xml = new XML::Simple (KeyAttr=>[]);
@@ -28,7 +29,9 @@ sub capture_thread {
 		my $result = getstore($_[0]->{url}, $tmp->filename);
 		if($result != 200) {
 			warn "[WARN] Error fetching $_[0]->{url}: $result\n";
-			$sleep = $sleep * 2;
+			if($sleep != $maxsleep) {
+				$sleep = $sleep * 2;
+			}
 			print "[INFO] Sleeping for $sleep seconds before trying again\n";
 		} else {
 			chmod 0755, $tmp->filename;
